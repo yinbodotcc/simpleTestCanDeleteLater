@@ -21,15 +21,12 @@
 
     
 <build>
+	<finalName>mvnGitJenkinsPro</finalName> 
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven-compiler-plugin.version}</version>
-        <!--
-          Fix breaking change introduced by JDK-8178012: Finish removal of -Xmodule
-          Reference:  http://bugs.java.com/bugdatabase/view_bug.do?bug_id=8178012
-        -->
+        <version>${maven-compiler-plugin.version}</version>        
         <executions>
           <execution>
             <id>default-testCompile</id>
@@ -47,8 +44,17 @@
           <showDeprecation>true</showDeprecation>
         </configuration>
       </plugin>
+	  
+	  
+	<plugin>  
+		<groupId>org.apache.maven.plugins</groupId>  
+		<artifactId>maven-resources-plugin</artifactId>  
+		<configuration>  
+			<overwrite>true</overwrite>  
+		</configuration>  
+	</plugin>  
   
-    </plugins>
+    </plugins>	
 </build>
 	
 	
