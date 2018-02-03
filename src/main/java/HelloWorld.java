@@ -5,5 +5,10 @@ public class HelloWorld
 		int a = 1;
 		System.out.println("hello,yay");
 	}
+	
+	public static int add(int a, int b)
+	{
+		return a + b;
+	}
 
 }

@@ -18,7 +18,13 @@
 	<maven-toolchains-plugin.version>1.1</maven-toolchains-plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-
+	<dependencies>
+		<dependency>  
+			<groupId>junit</groupId>  
+			<artifactId>junit</artifactId>  
+			<version>4.10</version>                
+		</dependency>
+	</dependencies>
 
 
 
@@ -37,30 +43,42 @@ maven通过install将本地工程打包成jar包，放入到本地仓库中，�
 
 　　pom.xml中引入的坐标首先在本地maven仓库中查找，若没有则去maven的网上中央仓库查找，并放到本地仓库供项目使用
 -->  
-<build>
-	<finalName>mvnGitJenkinsPro</finalName> 
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven-compiler-plugin.version}</version>        
-        <executions>
-          <execution>
-            <id>default-testCompile</id>
-            <phase>test-compile</phase>
-            <goals>
-              <goal>testCompile</goal>
-            </goals>
-            <configuration>
-              <skip>true</skip>
-            </configuration>
-          </execution>
-        </executions>
-        <configuration>
-          <showWarnings>true</showWarnings>
-          <showDeprecation>true</showDeprecation>
-        </configuration>
-      </plugin>
+	<build>
+		<finalName>mvnGitJenkinsPro</finalName> 
+		<plugins>
+		
+			
+		  <plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<version>${maven-compiler-plugin.version}</version>        
+			<executions>
+			  <execution>
+				<id>default-testCompile</id>
+				<phase>test-compile</phase>
+				<goals>
+				  <goal>testCompile</goal>
+				</goals>
+				<!--如果这里设置为true，则测试代码不会被编译，即junit包不导入都不会在编译时候报错，
+				因为它根本不会被编译-->
+				<configuration>
+				  <skip>false</skip>
+				</configuration>
+			  </execution>
+			</executions>
+			<configuration>
+			  <showWarnings>true</showWarnings>
+			  <showDeprecation>true</showDeprecation>
+			</configuration>
+		  </plugin>
+	  
+	  
+	  
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-plugin</artifactId>
+			<version>2.19</version>
+		</plugin>
 	  
 <!-- 方法1： -->	
 	<!--maven-jar-plugin用于生成META-INF/MANIFEST.MF文件的部分内容	-->
@@ -155,8 +173,6 @@ maven通过install将本地工程打包成jar包，放入到本地仓库中，�
         </plugin>  
 -->		
   
-    </plugins>	
-</build>
-	
-	
+		</plugins>	
+	</build>	
 </project>
