@@ -22,7 +22,7 @@
 		<dependency>  
 			<groupId>junit</groupId>  
 			<artifactId>junit</artifactId>  
-			<version>4.10</version>                
+			<version>4.12</version>                
 		</dependency>
 	</dependencies>
 
@@ -45,9 +45,7 @@ maven通过install将本地工程打包成jar包，放入到本地仓库中，�
 -->  
 	<build>
 		<finalName>mvnGitJenkinsPro</finalName> 
-		<plugins>
-		
-			
+		<plugins>			
 		  <plugin>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-compiler-plugin</artifactId>
@@ -73,11 +71,16 @@ maven通过install将本地工程打包成jar包，放入到本地仓库中，�
 		  </plugin>
 	  
 	  
-	  
+		<!--可能是由于历史的原因，Maven 2/3中用于执行测试的插件不是maven-test-plugin，而是maven-surefire-plugin。
+		maven-surefire-plugin是maven里执行测试用例的插件，不显示配置就会用默认配置。
+		这个插件的surefire:test命令会默认绑定maven执行的test阶段-->
 		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-surefire-plugin</artifactId>
 			<version>2.19</version>
+			<configuration>
+				<skipTests>false</skipTests>
+			</configuration>
 		</plugin>
 	  
 <!-- 方法1： -->	
