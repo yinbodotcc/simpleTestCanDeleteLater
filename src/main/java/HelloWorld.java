@@ -13,7 +13,7 @@ public class HelloWorld
 	
 	public static int sub(int a, int b)
 	{
-		return a _ b;
+		return a - b;
 	}
 
 }
