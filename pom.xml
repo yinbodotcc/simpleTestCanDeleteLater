@@ -160,8 +160,8 @@ maven通过install将本地工程打包成jar包，放入到本地仓库中，�
 <!--
 方法三：使用maven-shade-plugin插件打包
 -->
-<!--
-<plugin>  
+
+<!--plugin>  
             <groupId>org.apache.maven.plugins</groupId>  
             <artifactId>maven-shade-plugin</artifactId>  
             <version>2.4.1</version>  
@@ -180,38 +180,38 @@ maven通过install将本地工程打包成jar包，放入到本地仓库中，�
                     </configuration>  
                 </execution>  
             </executions>  
-        </plugin>  
--->		
+        </plugin-->
+    
 		
-		
-		<!--plugin>
+		<!--下面的配置后，在终端执行mvn clean package即可， 然后在target/site/jacoco中可以找到结果-->
+		<!--我自己实验的，当在Jenkins中使用jacoco时，下面这个部分是可以不要的-->
+		<plugin>
 			<groupId>org.jacoco</groupId>
 			<artifactId>jacoco-maven-plugin</artifactId>
 			<version>0.7.9</version>
+			<configuration>
+				<destFile>${basedir}/target/coverage-reports/jacoco-unit.exec</destFile>
+				<dataFile>${basedir}/target/coverage-reports/jacoco-unit.exec</dataFile>
+			</configuration>
 			<executions>
 				<execution>
-					<id>default-prepare-agent</id>
+					<id>jacoco-initialize</id>
 					<goals>
 						<goal>prepare-agent</goal>
 					</goals>
 				</execution>
 				<execution>
-					<id>default-report</id>
-					<phase>prepare-package</phase>
+					<id>jacoco-site</id>
+					<phase>package</phase>
 					<goals>
 						<goal>report</goal>
 					</goals>
 				</execution>
-				<execution>
-					<id>default-check</id>
-					<goals>
-						<goal>check</goal>
-					</goals>
-				</execution>
 			</executions>
-		</plugin-->
-			
-			
+		</plugin>
+ 
 		</plugins>	
-	</build>	
+	</build>
+	
+
 </project>
