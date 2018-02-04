@@ -190,16 +190,19 @@ maven通过install将本地工程打包成jar包，放入到本地仓库中，�
 			<artifactId>jacoco-maven-plugin</artifactId>
 			<version>0.7.9</version>
 			<configuration>
+				<!--jacoco报告输出到哪里-->
 				<destFile>${basedir}/target/coverage-reports/jacoco-unit.exec</destFile>
 				<dataFile>${basedir}/target/coverage-reports/jacoco-unit.exec</dataFile>
 			</configuration>
 			<executions>
+				<!--make the agent run before the tests are run -->
 				<execution>
 					<id>jacoco-initialize</id>
 					<goals>
 						<goal>prepare-agent</goal>
 					</goals>
 				</execution>
+				<!--make sure that the jacoco report task is run when package is executed-->
 				<execution>
 					<id>jacoco-site</id>
 					<phase>package</phase>
