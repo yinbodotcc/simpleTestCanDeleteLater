@@ -17,7 +17,14 @@
     <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
 	<maven-toolchains-plugin.version>1.1</maven-toolchains-plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<!--
+	注意下面的这行也表明测试用例可以不执行，和maven-surefire-plugin里面的skipTest效果一样
+	-->
+	<!--skipTests>true</skipTests-->
   </properties>
+  
+
+
 	<dependencies>
 		<dependency>  
 			<groupId>junit</groupId>  
@@ -175,7 +182,36 @@ maven通过install将本地工程打包成jar包，放入到本地仓库中，�
             </executions>  
         </plugin>  
 -->		
-  
+		
+		
+		<!--plugin>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>0.7.9</version>
+			<executions>
+				<execution>
+					<id>default-prepare-agent</id>
+					<goals>
+						<goal>prepare-agent</goal>
+					</goals>
+				</execution>
+				<execution>
+					<id>default-report</id>
+					<phase>prepare-package</phase>
+					<goals>
+						<goal>report</goal>
+					</goals>
+				</execution>
+				<execution>
+					<id>default-check</id>
+					<goals>
+						<goal>check</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin-->
+			
+			
 		</plugins>	
 	</build>	
 </project>
