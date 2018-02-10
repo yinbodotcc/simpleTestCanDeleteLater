@@ -1,0 +1,54 @@
+ ----- Instruction coverage(C0 Coverage)-----
+the amount of code that has been executed or missed. 
+completely independent from source formatting and always available, even in absence of debug information in the class files.
+
+------- branch coverage for all if and switch statements (C1 Coverage)---------------- 
+Branch coverage is always available, even in absence of debug information in the class files.
+exception handling is not considered as branches in the context of this counter definition. 
+
+wiki上有段说明：Has each branch (also called DD-path) of each control structure 
+(such as in if and case statements) been executed? For example, given an if statement,
+ have both the true and false branches been executed? Another way of saying this is, 
+ has every edge in the program been executed?
+ 
+--------Cyclomatic Complexity--------------- 
+for each non-abstract method
+它可以用来衡量一个模块判定结构的复杂程度
+可理解为覆盖所有的可能情况最少使用的测试用例数
+ 
+-------------------------------------------------------------------------------------------------------------------- 
+以下面这个测试用例为例：
+int foo (int x, int y)
+{
+    int z = 0;
+    if ((x > 0) && (y > 0))
+    {
+        z = x;
+    }
+    return z;
+}
+ 
+Function coverage –----- Has each function (or subroutine) in the program been called
+                         If during this execution function 'foo' was called at least once, then function coverage 
+						 for this function is satisfied.
+Statement coverage –-- Has each statement in the program been executed?说明，我理解语句覆盖率即使是100%，有可能因为xy
+                       两个参数没有给出所有组合（但是覆盖了每一个语句的执行），比如if（x>y）可能都给的是正数，负数没有考虑
+branch coverage--------Tests calling foo(1,1) and foo(0,1) will satisfy branch coverage because, 
+                       in the first case, both if conditions are met and z = x; is executed, while in the second case, 
+					   the first condition (x>0) is not satisfied, which prevents executing z = x;
+Condition coverage (or predicate coverage)----- Has each Boolean sub-expression evaluated both to true and false?	
+                       Condition coverage can be satisfied with tests that call foo(1,0) and foo(0,1). These are 
+					   necessary because in the first cases, (x>0) evaluates to true, while in the second, it evaluates
+					   false. At the same time, the first case makes (y>0) false, while the second makes it true
+                       我的理解是给出的几个测试用例保证每个boolean子表达式都经历了true和false，它不管整个boolean的情况，即不是
+                       笛卡尔集关系
+
+
+if a and b then
+我给出两个测试用例：
+
+    a=true, b=false
+    a=false, b=true
+这时条件覆盖率达到100%，但是分支则不行，两种情况下then后面的语句都不会执行
+However, this set of tests does not satisfy branch coverage since neither case will meet the if condition					   
+-----------------------------------------------------------------------------------------------------------------------					   
