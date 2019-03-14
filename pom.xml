@@ -11,16 +11,12 @@
   <url>http://maven.apache.org</url>
 
   <properties>
-	<maven.compiler.release>9</maven.compiler.release>
-    <maven.compiler.source>1.9</maven.compiler.source>
-    <maven.compiler.target>1.9</maven.compiler.target>
+	<maven.compiler.release>8</maven.compiler.release>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
     <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
-	<maven-toolchains-plugin.version>1.1</maven-toolchains-plugin.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	<!--
-	注意下面的这行也表明测试用例可以不执行，和maven-surefire-plugin里面的skipTest效果一样
-	-->
-	<!--skipTests>true</skipTests-->
+    <maven-toolchains-plugin.version>1.1</maven-toolchains-plugin.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>	
   </properties>
   
 
@@ -35,21 +31,6 @@
 
 
 
-<!--
-
-1、进入到maven根目录，执行mvn compile命令会在根目录生成target文件
-2、执行mvn clean可将根目录下生成的target文件移除
-3、执行mvn install：（可以新建一个工程，引用另外一个工程的class会发现报错，这时候就可以在被引用来中执行mvn install来解决：
-注意你需要在mnv中加入对另外一个工程的引用
-<dependency>
-        <groupId>com.maven</groupId>
-        <artifactId>maven-model</artifactId>
-        <version>0.0.1</version>
-    </dependency>）
-maven通过install将本地工程打包成jar包，放入到本地仓库中，再通过pom.xml配置依赖引入到当前工程。
-
-　　pom.xml中引入的坐标首先在本地maven仓库中查找，若没有则去maven的网上中央仓库查找，并放到本地仓库供项目使用
--->  
 	<build>
 		<finalName>mvnGitJenkinsPro</finalName> 
 		<plugins>			
@@ -63,9 +44,7 @@ maven通过install将本地工程打包成jar包，放入到本地仓库中，�
 				<phase>test-compile</phase>
 				<goals>
 				  <goal>testCompile</goal>
-				</goals>
-				<!--如果这里设置为true，则测试代码不会被编译，即junit包不导入都不会在编译时候报错，
-				因为它根本不会被编译-->
+				</goals>				
 				<configuration>
 				  <skip>false</skip>
 				</configuration>
@@ -78,9 +57,7 @@ maven通过install将本地工程打包成jar包，放入到本地仓库中，�
 		  </plugin>
 	  
 	  
-		<!--可能是由于历史的原因，Maven 2/3中用于执行测试的插件不是maven-test-plugin，而是maven-surefire-plugin。
-		maven-surefire-plugin是maven里执行测试用例的插件，不显示配置就会用默认配置。
-		这个插件的surefire:test命令会默认绑定maven执行的test阶段-->
+		
 		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-surefire-plugin</artifactId>
@@ -88,121 +65,26 @@ maven通过install将本地工程打包成jar包，放入到本地仓库中，�
 			<configuration>
 				<skipTests>false</skipTests>
 			</configuration>
-		</plugin>
-	  
-<!-- 方法1： -->	
-	<!--maven-jar-plugin用于生成META-INF/MANIFEST.MF文件的部分内容	-->
-	<!--plugin>  
-            <groupId>org.apache.maven.plugins</groupId>  
-            <artifactId>maven-jar-plugin</artifactId>  
-            <version>2.6</version>  
-            <configuration>  
-                <archive>  
-                    <manifest>  
-                        <addClasspath>true</addClasspath>  
-                        <classpathPrefix>lib/</classpathPrefix>  
-                        <mainClass>com.xxg.Main</mainClass>  
-                    </manifest>  
-                </archive>  
-            </configuration>  
-        </plugin-->
+		</plugin>    
 		
-		<!-- 只是生成MANIFEST.MF文件还不够，maven-dependency-plugin插件用于将依赖包拷贝到
-		<outputDirectory>${project.build.directory}/lib</outputDirectory>指定的位置，即lib目录下。
-配置完成后，通过mvn package指令打包，会在target目录下生成jar包，并将依赖包拷贝到target/lib目录下 -->
-        <!--plugin>  
-            <groupId>org.apache.maven.plugins</groupId>  
-            <artifactId>maven-dependency-plugin</artifactId>  
-            <version>2.10</version>  
-            <executions>  
-                <execution>  
-                    <id>copy-dependencies</id>  
-                    <phase>package</phase>  
-                    <goals>  
-                        <goal>copy-dependencies</goal>  
-                    </goals>  
-                    <configuration>  
-                        <outputDirectory>${project.build.directory}/lib</outputDirectory>  
-                    </configuration>  
-                </execution>  
-            </executions>  
-        </plugin-->
-
-<!--
-
-方法二：使用maven-assembly-plugin插件打包
-直接使用mvn package打包
--->	
-		<!--plugin>  
-            <groupId>org.apache.maven.plugins</groupId>  
-            <artifactId>maven-assembly-plugin</artifactId>  
-            <version>2.5.5</version>  
-            <configuration>  
-                <archive>  
-                    <manifest>  
-                        <mainClass>com.xxg.Main</mainClass>  
-                    </manifest>  
-                </archive>  
-                <descriptorRefs>  
-                    <descriptorRef>jar-with-dependencies</descriptorRef>  
-                </descriptorRefs>  
-            </configuration>  
-            <executions>  
-                <execution>  
-                    <id>make-assembly</id>  
-                    <phase>package</phase>  
-                    <goals>  
-                        <goal>single</goal>  
-                    </goals>  
-                </execution>  
-            </executions>  
-        </plugin-->  
-<!--
-方法三：使用maven-shade-plugin插件打包
--->
-
-<!--plugin>  
-            <groupId>org.apache.maven.plugins</groupId>  
-            <artifactId>maven-shade-plugin</artifactId>  
-            <version>2.4.1</version>  
-            <executions>  
-                <execution>  
-                    <phase>package</phase>  
-                    <goals>  
-                        <goal>shade</goal>  
-                    </goals>  
-                    <configuration>  
-                        <transformers>  
-                            <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">  
-                                <mainClass>com.xxg.Main</mainClass>  
-                            </transformer>  
-                        </transformers>  
-                    </configuration>  
-                </execution>  
-            </executions>  
-        </plugin-->
-    
 		
-		<!--下面的配置后，在终端执行mvn clean package即可， 然后在target/site/jacoco中可以找到结果-->
-		<!--我自己实验的，当在Jenkins中使用jacoco时，下面这个部分是可以不要的-->
 		<plugin>
 			<groupId>org.jacoco</groupId>
 			<artifactId>jacoco-maven-plugin</artifactId>
 			<version>0.7.9</version>
-			<configuration>
-				<!--jacoco报告输出到哪里-->
+			<configuration>				
 				<destFile>${basedir}/target/coverage-reports/jacoco-unit.exec</destFile>
 				<dataFile>${basedir}/target/coverage-reports/jacoco-unit.exec</dataFile>
 			</configuration>
 			<executions>
-				<!--make the agent run before the tests are run -->
+				
 				<execution>
 					<id>jacoco-initialize</id>
 					<goals>
 						<goal>prepare-agent</goal>
 					</goals>
 				</execution>
-				<!--make sure that the jacoco report task is run when package is executed-->
+				
 				<execution>
 					<id>jacoco-site</id>
 					<phase>package</phase>
